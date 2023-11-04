@@ -28,4 +28,4 @@ class Ball:
         self.image.draw(self.x,self.y,64,64)
         draw_rectangle(*self.get_bb())
 
- 
+
