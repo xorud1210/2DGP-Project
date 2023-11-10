@@ -23,6 +23,7 @@ def handle_events():
             game_framework.quit()
         else:
             player.handle_event(event)
+            stadium.handle_event(event)
 
 def init():
     global player
@@ -40,6 +41,10 @@ def init():
     ball = Ball()
     game_world.add_object(ball, 1)
     # fill here
+
+    game_world.add_collision_pair('player:ball',player,ball)
+    game_world.add_collision_pair('stadium:ball',stadium,ball)
+    game_world.add_collision_pair('stadium:player', stadium, player)
 
 
 
