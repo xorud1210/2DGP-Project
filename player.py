@@ -93,7 +93,7 @@ class Idle:
 
     @staticmethod
     def draw(player):
-        if player.x_dir == 1:
+        if player.idle_dir == 1:
             if player.role == 'knight':
                 player.knight.clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
                                     100)
