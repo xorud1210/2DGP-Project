@@ -39,6 +39,15 @@ def space_down(e):
 def a_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_a
 
+def down_1(e):
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_1
+
+def down_2(e):
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_2
+
+def down_3(e):
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_3
+
 def time_out(e):
     return e[0] == 'TIME_OUT'
 
@@ -85,12 +94,28 @@ class Idle:
     @staticmethod
     def draw(player):
         if player.x_dir == 1:
-            player.knight.clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
-                                100)
+            if player.role == 'knight':
+                player.knight.clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
+                                    100)
+            elif player.role == 'magician':
+                player.magician.clip_draw(int(player.frame) * 90, player.action * 162, 90, player.frame_hei, player.x, player.y, 66,
+                                    100)
+            elif player.role == 'viking':
+                player.viking.clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
+                                    100)
         else:
-            player.knight.clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
-                                player.x, player.y, 66,
-                                100)
+            if player.role == 'knight':
+                player.knight.clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
+                                    player.x, player.y, 66,
+                                    100)
+            elif player.role == 'magician':
+                player.magician.clip_composite_draw(int(player.frame) * 90, player.action * 162, 90, player.frame_hei, 0, 'h',
+                                    player.x, player.y, 66,
+                                    100)
+            elif player.role == 'viking':
+                player.viking.clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
+                                    player.x, player.y, 66,
+                                    100)
 
 class Walk:
     @staticmethod
@@ -128,13 +153,28 @@ class Walk:
     @staticmethod
     def draw(player):
         if player.x_dir == 1:
-            player.knight.clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
-                                100)
+            if player.role == 'knight':
+                player.knight.clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
+                                    100)
+            elif player.role == 'magician':
+                player.magician.clip_draw(int(player.frame) * 90, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
+                                    100)
+            elif player.role == 'viking':
+                player.viking.clip_draw(int(player.frame) * player.frame_wid, player.action * 162, 90, player.frame_hei, player.x, player.y, 66,
+                                    100)
         else:
-            player.knight.clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
-                                player.x, player.y, 66,
-                                100)
-
+            if player.role == 'knight':
+                player.knight.clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
+                                    player.x, player.y, 66,
+                                    100)
+            elif player.role == 'magician':
+                player.magician.clip_composite_draw(int(player.frame) * 90, player.action * 162, 90, player.frame_hei, 0, 'h',
+                                    player.x, player.y, 66,
+                                    100)
+            elif player.role == 'viking':
+                player.viking.clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
+                                    player.x, player.y, 66,
+                                    100)
         pass
     pass
 
@@ -186,6 +226,8 @@ class Player:
         self.state_machine = StateMachine(self)
         self.frame_wid = 102
         self.frame_hei = 162
+        self.role = 'knight'
+        self.roles = {down_1 : 'knight', down_2 : 'magician', down_3 : 'viking'}
 
     def update(self):
         self.state_machine.update()
@@ -193,6 +235,9 @@ class Player:
 
     def handle_event(self, event):
         self.state_machine.handle_event(('INPUT', event))
+        for check_event, next_role in self.roles.items():
+            if check_event(('INPUT',event)):
+                self.role = next_role
         pass
 
     def draw(self):
