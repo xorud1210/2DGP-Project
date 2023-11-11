@@ -46,3 +46,8 @@ class Stadium:
         self.stadium.draw(self.x,self.y,self.width,self.height)
         draw_rectangle(*self.get_bb())
         # self.stadium.draw(800,300)
+    def get_bb(self):
+        return self.x - 681, self.y - 372, self.x + 687, self.y + 370
+
+    def handle_collision(self, group, other):
+        pass
