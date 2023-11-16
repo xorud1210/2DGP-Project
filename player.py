@@ -1,35 +1,36 @@
 from pico2d import (get_time, load_image, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE,
                     SDLK_LEFT, SDLK_RIGHT, SDLK_DOWN, SDLK_UP,
                     SDLK_a, SDLK_1, SDLK_2, SDLK_3,
-                    draw_rectangle)
+                    draw_rectangle, clamp)
 import game_world
 import game_framework
+
+# state event check
+# ( state event type, event value )
 
 def right_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_RIGHT
 
-
 def right_up(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_RIGHT
-
 
 def left_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_LEFT
 
-
 def left_up(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_LEFT
 
-def up_down(e):
+
+def upkey_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_UP
 
-def up_up(e):
+def upkey_up(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_UP
 
-def down_down(e):
+def downkey_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_DOWN
 
-def down_up(e):
+def downkey_up(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_DOWN
 
 
@@ -110,10 +111,10 @@ class Walk:
             player.x_dir = 1
         elif left_down(e) or right_up(e): # 왼쪽으로 RUN
             player.x_dir = -1
-        elif up_down(e) or down_up(e):
-            player.y_dir = 1
-        elif down_down(e) or up_up(e):
-            player.y_dir = -1
+        # elif up_down(e) or down_up(e):
+        #     player.y_dir = 1
+        # elif down_down(e) or up_up(e):
+        #     player.y_dir = -1
         player.action = 0
 
     @staticmethod
@@ -147,6 +148,256 @@ class Walk:
                                      player.x, player.y, 66,
                                      100)
 
+class RunRight:
+    @staticmethod
+    def enter(player, e):
+        player.x_dir = 1
+        player.y_dir = 0
+        pass
+
+    @staticmethod
+    def exit(player, e):
+        pass
+
+    @staticmethod
+    def do(player):
+        player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
+        player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
+        player.y = clamp(25, player.y, 900 - 25)
+
+    @staticmethod
+    def draw(player):
+        if player.x_dir == 1:
+            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
+                                     100)
+
+        else:
+            player.image[player.role].clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
+                                     player.x, player.y, 66,
+                                     100)
+
+class RunRightUp:
+    @staticmethod
+    def enter(player, e):
+        player.x_dir = 1
+        player.y_dir = 1
+        pass
+
+    @staticmethod
+    def exit(boy, e):
+        pass
+
+    @staticmethod
+    def do(player):
+        player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
+        player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
+        player.y = clamp(25, player.y, 900 - 25)
+        pass
+
+    @staticmethod
+    def draw(player):
+        if player.x_dir == 1:
+            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
+                                     100)
+
+        else:
+            player.image[player.role].clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
+                                     player.x, player.y, 66,
+                                     100)
+
+class RunRightDown:
+    @staticmethod
+    def enter(player, e):
+        player.x_dir = 1
+        player.y_dir = -1
+        pass
+
+    @staticmethod
+    def exit(boy, e):
+        pass
+
+    @staticmethod
+    def do(player):
+        player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
+        player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
+        player.y = clamp(25, player.y, 900 - 25)
+        pass
+
+    @staticmethod
+    def draw(player):
+        if player.x_dir == 1:
+            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
+                                     100)
+
+        else:
+            player.image[player.role].clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
+                                     player.x, player.y, 66,
+                                     100)
+
+
+
+
+class RunLeft:
+    @staticmethod
+    def enter(player, e):
+        player.x_dir = -1
+        player.y_dir = 0
+        pass
+
+    @staticmethod
+    def exit(boy, e):
+        pass
+
+    @staticmethod
+    def do(player):
+        player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
+        player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
+        player.y = clamp(25, player.y, 900 - 25)
+
+    @staticmethod
+    def draw(player):
+        if player.x_dir == 1:
+            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
+                                     100)
+
+        else:
+            player.image[player.role].clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
+                                     player.x, player.y, 66,
+                                     100)
+
+
+class RunLeftUp:
+    @staticmethod
+    def enter(player, e):
+        player.x_dir = -1
+        player.y_dir = 1
+        pass
+
+    @staticmethod
+    def exit(boy, e):
+        pass
+
+    @staticmethod
+    def do(player):
+        player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
+        player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
+        player.y = clamp(25, player.y, 900 - 25)
+
+    @staticmethod
+    def draw(player):
+        if player.x_dir == 1:
+            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
+                                     100)
+
+        else:
+            player.image[player.role].clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
+                                     player.x, player.y, 66,
+                                     100)
+
+
+class RunLeftDown:
+    @staticmethod
+    def enter(player, e):
+        player.x_dir = -1
+        player.y_dir = -1
+        pass
+
+    @staticmethod
+    def exit(boy, e):
+        pass
+
+    @staticmethod
+    def do(player):
+        player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
+        player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
+        player.y = clamp(25, player.y, 900 - 25)
+
+    @staticmethod
+    def draw(player):
+        if player.x_dir == 1:
+            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
+                                     100)
+
+        else:
+            player.image[player.role].clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
+                                     player.x, player.y, 66,
+                                     100)
+
+
+
+
+class RunUp:
+    @staticmethod
+    def enter(player, e):
+        player.y_dir = 1
+
+
+    @staticmethod
+    def exit(boy, e):
+        pass
+
+    @staticmethod
+    def do(player):
+        player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
+        # player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
+        player.y = clamp(25, player.y, 900 - 25)
+        pass
+
+    @staticmethod
+    def draw(player):
+        if player.x_dir == 1:
+            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
+                                     100)
+
+        else:
+            player.image[player.role].clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
+                                     player.x, player.y, 66,
+                                     100)
+
+
+class RunDown:
+    @staticmethod
+    def enter(player, e):
+        player.y_dir = -1
+
+    @staticmethod
+    def exit(boy, e):
+        pass
+
+    @staticmethod
+    def do(player):
+        player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
+        # player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
+        player.y = clamp(25, player.y, 900 - 25)
+        pass
+
+    @staticmethod
+    def draw(player):
+        if player.x_dir == 1:
+            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
+                                     100)
+
+        else:
+            player.image[player.role].clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
+                                     player.x, player.y, 66,
+                                     100)
+
 
 class Sleep:
     pass
@@ -158,9 +409,21 @@ class StateMachine:
         self.player = player
         self.cur_state = Idle
         self.transitions = {
-            Idle: {a_down : Idle,  right_down: Walk, left_down: Walk, left_up: Walk, right_up: Walk, up_up: Walk, up_down: Walk,down_up: Walk,down_down: Walk, time_out: Sleep},
-            Walk: {a_down : Walk,  right_down: Idle, left_down: Idle, right_up: Idle, left_up: Idle, up_up: Idle, up_down: Idle,down_up: Idle,down_down: Idle},
-            Sleep: {right_down: Walk, left_down: Walk, right_up: Walk, left_up: Walk}}
+            Idle: {right_down: RunRight, left_down: RunLeft, left_up: RunRight, right_up: RunLeft, upkey_down: RunUp,
+                   downkey_down: RunDown, upkey_up: RunDown, downkey_up: RunUp},
+            RunRight: {right_up: Idle, left_down: Idle, upkey_down: RunRightUp, upkey_up: RunRightDown,
+                       downkey_down: RunRightDown, downkey_up: RunRightUp},
+            RunRightUp: {upkey_up: RunRight, right_up: RunUp, left_down: RunUp, downkey_down: RunRight},
+            RunUp: {upkey_up: Idle, left_down: RunLeftUp, downkey_down: Idle, right_down: RunRightUp,
+                    left_up: RunRightUp, right_up: RunLeftUp},
+            RunLeftUp: {right_down: RunUp, downkey_down: RunLeft, left_up: RunUp, upkey_up: RunLeft},
+            RunLeft: {left_up: Idle, upkey_down: RunLeftUp, right_down: Idle, downkey_down: RunLeftDown,
+                      upkey_up: RunLeftDown, downkey_up: RunLeftUp},
+            RunLeftDown: {left_up: RunDown, downkey_up: RunLeft, upkey_down: RunLeft, right_down: RunDown},
+            RunDown: {downkey_up: Idle, left_down: RunLeftDown, upkey_down: Idle, right_down: RunRightDown,
+                      left_up: RunRightDown, right_up: RunLeftDown},
+            RunRightDown: {right_up: RunDown, downkey_up: RunRight, left_down: RunDown, upkey_down: RunRight}
+        }
 
     def start(self):
         self.cur_state.enter(self.player)
