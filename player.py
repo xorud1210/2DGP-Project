@@ -457,6 +457,7 @@ class Player:
         self.frame_hei = 162
         self.role = 'knight'
         self.roles = {down_1 : 'knight', down_2 : 'magician', down_3 : 'viking'}
+        self.stat = {'knight' : {'power' : 2, 'speed' : 1.5, 'attack_speed' : 1 }, 'magician' : {'power' : 3, 'speed' : 1, 'attack_speed' : 0.5 }, 'viking' : {'power' : 4, 'speed' : 1.2, 'attack_speed' : 0.8}}
         self.image = {'knight':load_image('resource/player/knight.png'),
                       'magician' : load_image('resource/player/magician.png'),
                       'viking':load_image('resource/player/viking.png')}
