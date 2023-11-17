@@ -162,8 +162,8 @@ class RunRight:
     @staticmethod
     def do(player):
         player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
-        player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time
-        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time * player.stat[player.role]['speed']
+        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time * player.stat[player.role]['speed']
         player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
         player.y = clamp(25, player.y, 900 - 25)
 
@@ -192,8 +192,8 @@ class RunRightUp:
     @staticmethod
     def do(player):
         player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
-        player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time
-        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time * player.stat[player.role]['speed']
+        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time * player.stat[player.role]['speed']
         player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
         player.y = clamp(25, player.y, 900 - 25)
         pass
@@ -223,8 +223,8 @@ class RunRightDown:
     @staticmethod
     def do(player):
         player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
-        player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time
-        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time * player.stat[player.role]['speed']
+        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time * player.stat[player.role]['speed']
         player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
         player.y = clamp(25, player.y, 900 - 25)
         pass
@@ -257,8 +257,8 @@ class RunLeft:
     @staticmethod
     def do(player):
         player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
-        player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time
-        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time * player.stat[player.role]['speed']
+        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time * player.stat[player.role]['speed']
         player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
         player.y = clamp(25, player.y, 900 - 25)
 
@@ -288,8 +288,8 @@ class RunLeftUp:
     @staticmethod
     def do(player):
         player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
-        player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time
-        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time * player.stat[player.role]['speed']
+        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time * player.stat[player.role]['speed']
         player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
         player.y = clamp(25, player.y, 900 - 25)
 
@@ -319,8 +319,8 @@ class RunLeftDown:
     @staticmethod
     def do(player):
         player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
-        player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time
-        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time
+        player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time * player.stat[player.role]['speed']
+        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time * player.stat[player.role]['speed']
         player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
         player.y = clamp(25, player.y, 900 - 25)
 
@@ -351,8 +351,8 @@ class RunUp:
     @staticmethod
     def do(player):
         player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
-        # player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time
-        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time
+        # player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time * player.stat[player.role]['speed']
+        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time * player.stat[player.role]['speed']
         player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
         player.y = clamp(25, player.y, 900 - 25)
         pass
@@ -381,8 +381,8 @@ class RunDown:
     @staticmethod
     def do(player):
         player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
-        # player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time
-        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time
+        # player.x += player.x_dir * RUN_SPEED_PPS * game_framework.frame_time * player.stat[player.role]['speed']
+        player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time * player.stat[player.role]['speed']
         player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
         player.y = clamp(25, player.y, 900 - 25)
         pass
