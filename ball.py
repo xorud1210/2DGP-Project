@@ -1,7 +1,12 @@
+import math
+
 from pico2d import load_image, draw_rectangle
 
+import game_framework
 import game_world
 import play_mode
+
+machal = 0.1
 
 
 class Ball:
@@ -13,16 +18,21 @@ class Ball:
         self.image = load_image('resource/stadium/ball.png')
 
     def update(self):
-        self.x += self.x_dir * 4
-        self.y += self.y_dir * 3
+        self.x += self.x_dir
+        self.y += self.y_dir
         if self.x_dir < 0:
-            self.x_dir += 0.05
+            self.x_dir += machal * game_framework.frame_time * game_framework.PIXEL_PER_METER
         elif self.x_dir > 0:
-            self.x_dir -= 0.05
+            self.x_dir -= machal * game_framework.frame_time * game_framework.PIXEL_PER_METER
         if self.y_dir < 0:
-            self.y_dir += 0.05
+            self.y_dir += machal * game_framework.frame_time * game_framework.PIXEL_PER_METER
         elif self.y_dir > 0:
-            self.y_dir -= 0.05
+            self.y_dir -= machal * game_framework.frame_time * game_framework.PIXEL_PER_METER
+
+        if self.x_dir < 0.05 and self.x_dir > -0.05:
+            self.x_dir = 0
+        if self.y_dir < 0.05 and self.y_dir > -0.05:
+            self.y_dir = 0
 
     def draw(self):
         self.image.draw(self.x,self.y,64,64)
@@ -46,6 +56,9 @@ class Ball:
                 self.y_dir *= -1
                 self.y = 85
         if group == 'player:ball':
-            self.x_dir = (self.x - other.x) / 50
-            self.y_dir = (self.y - other.y) / 50
-            print(self.x_dir,self.y_dir)
+            # self.x_dir = (other.stat[other.role]['power'] if (self.x - other.x) > 0 else -other.stat[other.role]['power']) * game_framework.PIXEL_PER_METER
+            # self.y_dir = (other.stat[other.role]['power'] if (self.y - other.y) > 0 else -other.stat[other.role]['power']) * game_framework.PIXEL_PER_METER
+            dir = math.atan2(self.y - other.y, self.x - other.x)
+            self.x_dir = math.cos(dir) * other.stat[other.role]['power']
+            self.y_dir = math.sin(dir) * other.stat[other.role]['power']
+            # print(self.x_dir,self.y_dir)
