@@ -6,7 +6,7 @@ import game_framework
 import game_world
 import play_mode
 
-machal = 0.1
+machal = 1.02
 
 
 class Ball:
@@ -21,17 +21,17 @@ class Ball:
         self.x += self.x_dir
         self.y += self.y_dir
         if self.x_dir < 0:
-            self.x_dir += machal * game_framework.frame_time * game_framework.PIXEL_PER_METER
+            self.x_dir /= machal
         elif self.x_dir > 0:
-            self.x_dir -= machal * game_framework.frame_time * game_framework.PIXEL_PER_METER
+            self.x_dir /= machal
         if self.y_dir < 0:
-            self.y_dir += machal * game_framework.frame_time * game_framework.PIXEL_PER_METER
+            self.y_dir /= machal
         elif self.y_dir > 0:
-            self.y_dir -= machal * game_framework.frame_time * game_framework.PIXEL_PER_METER
+            self.y_dir /= machal
 
-        if self.x_dir < 0.05 and self.x_dir > -0.05:
+        if self.x_dir < 0.0001 and self.x_dir > -0.0001:
             self.x_dir = 0
-        if self.y_dir < 0.05 and self.y_dir > -0.05:
+        if self.y_dir < 0.0001 and self.y_dir > -0.0001:
             self.y_dir = 0
 
     def draw(self):
