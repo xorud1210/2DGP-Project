@@ -483,6 +483,9 @@ class Player:
         self.state_machine.draw()
         draw_rectangle(*self.get_bb())
 
+    def attack(self):
+        weapon = self.stat[self.role]['weapon'](self.x + 40 * self.x_dir,self.y, self.stat[self.role]['power'], self.x_dir)
+        game_world.add_object(weapon)
 
     def get_bb(self):
         return self.x - 33, self.y - 50,self.x + 33, self.y + 50
