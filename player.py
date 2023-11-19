@@ -410,19 +410,23 @@ class StateMachine:
         self.cur_state = Idle
         self.transitions = {
             Idle: {right_down: RunRight, left_down: RunLeft, left_up: RunRight, right_up: RunLeft, upkey_down: RunUp,
-                   downkey_down: RunDown, upkey_up: RunDown, downkey_up: RunUp},
+                   downkey_down: RunDown, upkey_up: RunDown, downkey_up: RunUp, space_down: Idle},
             RunRight: {right_up: Idle, left_down: Idle, upkey_down: RunRightUp, upkey_up: RunRightDown,
-                       downkey_down: RunRightDown, downkey_up: RunRightUp},
-            RunRightUp: {upkey_up: RunRight, right_up: RunUp, left_down: RunUp, downkey_down: RunRight},
+                       downkey_down: RunRightDown, downkey_up: RunRightUp, space_down: RunRight},
+            RunRightUp: {upkey_up: RunRight, right_up: RunUp, left_down: RunUp, downkey_down: RunRight,
+                         space_down: RunRightUp},
             RunUp: {upkey_up: Idle, left_down: RunLeftUp, downkey_down: Idle, right_down: RunRightUp,
-                    left_up: RunRightUp, right_up: RunLeftUp},
-            RunLeftUp: {right_down: RunUp, downkey_down: RunLeft, left_up: RunUp, upkey_up: RunLeft},
+                    left_up: RunRightUp, right_up: RunLeftUp, space_down: RunUp},
+            RunLeftUp: {right_down: RunUp, downkey_down: RunLeft, left_up: RunUp, upkey_up: RunLeft,
+                        space_down: RunLeftUp},
             RunLeft: {left_up: Idle, upkey_down: RunLeftUp, right_down: Idle, downkey_down: RunLeftDown,
-                      upkey_up: RunLeftDown, downkey_up: RunLeftUp},
-            RunLeftDown: {left_up: RunDown, downkey_up: RunLeft, upkey_down: RunLeft, right_down: RunDown},
+                      upkey_up: RunLeftDown, downkey_up: RunLeftUp, space_down: RunLeft},
+            RunLeftDown: {left_up: RunDown, downkey_up: RunLeft, upkey_down: RunLeft, right_down: RunDown,
+                          space_down: RunLeftDown},
             RunDown: {downkey_up: Idle, left_down: RunLeftDown, upkey_down: Idle, right_down: RunRightDown,
-                      left_up: RunRightDown, right_up: RunLeftDown},
-            RunRightDown: {right_up: RunDown, downkey_up: RunRight, left_down: RunDown, upkey_down: RunRight}
+                      left_up: RunRightDown, right_up: RunLeftDown, space_down: RunDown},
+            RunRightDown: {right_up: RunDown, downkey_up: RunRight, left_down: RunDown, upkey_down: RunRight,
+                           space_down: RunRightDown}
         }
 
     def start(self):
