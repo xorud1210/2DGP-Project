@@ -76,12 +76,9 @@ class Idle:
 
     @staticmethod
     def exit(player, e):
-        # if a_down(e):
-        #     player.action = 2
-        #     player.frame = 0
-        #     player.frame_wid = 130
-        #     player.frame_hei = 215
-        pass
+        if space_down(e):
+            player.attack()
+
 
     @staticmethod
     def do(player):
@@ -111,19 +108,10 @@ class Walk:
             player.x_dir = 1
         elif left_down(e) or right_up(e): # 왼쪽으로 RUN
             player.x_dir = -1
-        # elif up_down(e) or down_up(e):
-        #     player.y_dir = 1
-        # elif down_down(e) or up_up(e):
-        #     player.y_dir = -1
         player.action = 0
 
     @staticmethod
     def exit(player, e):
-        # if a_down(e):
-        #     player.action = 2
-        #     player.frame = 0
-        #     player.frame_wid = 130
-        #     player.frame_hei = 215
         pass
 
     @staticmethod
@@ -157,7 +145,9 @@ class RunRight:
 
     @staticmethod
     def exit(player, e):
-        pass
+        if space_down(e):
+            player.attack()
+
 
     @staticmethod
     def do(player):
@@ -186,8 +176,10 @@ class RunRightUp:
         pass
 
     @staticmethod
-    def exit(boy, e):
-        pass
+    def exit(player, e):
+        if space_down(e):
+            player.attack()
+
 
     @staticmethod
     def do(player):
@@ -217,8 +209,10 @@ class RunRightDown:
         pass
 
     @staticmethod
-    def exit(boy, e):
-        pass
+    def exit(player, e):
+        if space_down(e):
+            player.attack()
+
 
     @staticmethod
     def do(player):
@@ -251,8 +245,10 @@ class RunLeft:
         pass
 
     @staticmethod
-    def exit(boy, e):
-        pass
+    def exit(player, e):
+        if space_down(e):
+            player.attack()
+
 
     @staticmethod
     def do(player):
@@ -282,8 +278,10 @@ class RunLeftUp:
         pass
 
     @staticmethod
-    def exit(boy, e):
-        pass
+    def exit(player, e):
+        if space_down(e):
+            player.attack()
+
 
     @staticmethod
     def do(player):
@@ -313,8 +311,10 @@ class RunLeftDown:
         pass
 
     @staticmethod
-    def exit(boy, e):
-        pass
+    def exit(player, e):
+        if space_down(e):
+            player.attack()
+
 
     @staticmethod
     def do(player):
@@ -345,8 +345,10 @@ class RunUp:
 
 
     @staticmethod
-    def exit(boy, e):
-        pass
+    def exit(player, e):
+        if space_down(e):
+            player.attack()
+
 
     @staticmethod
     def do(player):
@@ -375,8 +377,9 @@ class RunDown:
         player.y_dir = -1
 
     @staticmethod
-    def exit(boy, e):
-        pass
+    def exit(player, e):
+        if space_down(e):
+            player.attack()
 
     @staticmethod
     def do(player):
