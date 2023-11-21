@@ -1,9 +1,10 @@
 import math
 
-import behavior_tree
+from behavior_tree import BehaviorTree, Action, Sequence, Condition, Selector
 from pico2d import load_image
 
 import game_framework
+import play_mode
 from arrow import Arrow
 from orb import Orb
 from sword import Sword
@@ -22,7 +23,7 @@ FRAMES_PER_ACTION = 8
 
 class Ai:
     def __init__(self):
-        self.x, self.y = 300, 300
+        self.x, self.y = 800, 300
         self.frame = 0
         self.action = 9
         self.x_dir = 0
@@ -50,9 +51,12 @@ class Ai:
                        'action': {'idle': 9, 'walk': 8, 'run': 7, 'atk1': 5, 'atk2': 4, 'atk3': 3}},
         }
         self.input_time = 0
-        
+
+        self.build_behavior_tree()
+
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % self.max_frame
+        self.bt.run()
 
     def draw(self):
         if math.cos(self.dir) < 0:
@@ -67,15 +71,38 @@ class Ai:
                                             self.frame_hei, self.x, self.y + 25,
                                             self.frame_wid, self.frame_hei)
 
- # if player.x_dir == 1:
- #            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * player.frame_hei,
- #                                                player.frame_wid, player.frame_hei, player.x, player.y + 25,
- #                                                player.frame_wid * player.size,
- #                                                player.frame_hei * player.size)
- #
- #        else:
- #            player.image[player.role].clip_composite_draw(int(player.frame) * player.frame_wid,
- #                                                          player.action * player.frame_hei, player.frame_wid,
- #                                                          player.frame_hei, 0, 'h',
- #                                                          player.x, player.y + 25, player.frame_wid * player.size,
- #                                                          player.frame_hei * player.size)
+    def handle_event(self, event):
+        pass
+
+    def state_change(self, state):
+        self.action = self.sprite[self.role]['action'][state]
+        self.max_frame = self.sprite[self.role]['max_frame'][state]
+
+    def set_dir(self, tx, ty):
+        self.dir = math.atan2(ty - self.y, tx - self.x)
+        self.x_dir = 1 if math.cos(self.dir) > 0 else -1
+        self.y_dir = 1 if math.sin(self.dir) > 0 else -1
+
+    def distance_less_than(self, x1, y1, x2, y2, r):
+        distance2 = (x1 - x2) ** 2 + (y1 - y2) ** 2
+        return distance2 < (PIXEL_PER_METER * r) ** 2
+
+    def move_to_ball(self, r=1):
+        self.state_change('walk')
+        self.set_dir(play_mode.ball.x, play_mode.ball.y)
+        self.speed = RUN_SPEED_PPS * self.stat[self.role]['speed']
+        self.x += self.speed * math.cos(self.dir) * game_framework.frame_time
+        self.y += self.speed * math.sin(self.dir) * game_framework.frame_time
+
+        if self.distance_less_than(play_mode.ball.x,play_mode.ball.y,self.x,self.y, r):
+            return BehaviorTree.SUCCESS
+        else:
+            return BehaviorTree.RUNNING
+
+    def build_behavior_tree(self):
+        a1 = Action('Move to ball',self.move_to_ball)
+        SEQ_move_to_ball = Sequence('Move to ball', a1)
+
+        root = SEQ_move_to_ball
+
+        self.bt = BehaviorTree(root)
