@@ -1,5 +1,9 @@
+import math
+
 import behavior_tree
 from pico2d import load_image
+
+import game_framework
 from arrow import Arrow
 from orb import Orb
 from sword import Sword
@@ -46,10 +50,23 @@ class Ai:
                        'action': {'idle': 9, 'walk': 8, 'run': 7, 'atk1': 5, 'atk2': 4, 'atk3': 3}},
         }
         self.input_time = 0
+        
+    def update(self):
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % self.max_frame
 
     def draw(self):
         if math.cos(self.dir) < 0:
-            self.image[self.role].clip_draw
+            self.image[self.role].clip_composite_draw(int(self.frame) * self.frame_wid,
+                                                          self.action * self.frame_hei, self.frame_wid,
+                                                          self.frame_hei, 0, 'h',
+                                                          self.x, self.y + 25, self.frame_wid,
+                                                          self.frame_hei)
+        else:
+            self.image[self.role].clip_draw(int(self.frame) * self.frame_wid,
+                                            self.action * self.frame_hei, self.frame_wid,
+                                            self.frame_hei, self.x, self.y + 25,
+                                            self.frame_wid, self.frame_hei)
+
  # if player.x_dir == 1:
  #            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * player.frame_hei,
  #                                                player.frame_wid, player.frame_hei, player.x, player.y + 25,
