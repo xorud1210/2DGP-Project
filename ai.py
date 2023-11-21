@@ -38,7 +38,7 @@ class Ai:
         self.speed = 1.5
         self.attack_speed = 0.6
         self.role = 'knight'
-        self.stat = {'knight': {'power': 2, 'range': 2, 'speed': 1.5, 'attack_speed': 0.6, 'weapon': Sword},
+        self.stat = {'knight': {'power': 2, 'range': 1.2, 'speed': 1.5, 'attack_speed': 0.6, 'weapon': Sword},
                      'wizard': {'power': 4, 'range': 12, 'speed': 1, 'attack_speed': 0.5, 'weapon': Orb},
                      'archer': {'power': 6, 'range': 8, 'speed': 1.2, 'attack_speed': 1.5, 'weapon': Arrow}}
         self.image = {'knight': load_image('resource/player/knight.png'),
