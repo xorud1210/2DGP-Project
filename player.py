@@ -262,12 +262,6 @@ class RunDown:
         player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time * player.stat[player.role]['speed']
         player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
         player.y = clamp(25, player.y, 900 - 25)
-        pass
-
-
-class Sleep:
-    pass
-
 
 
 class StateMachine:
