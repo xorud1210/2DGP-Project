@@ -434,6 +434,14 @@ class Player:
         self.image = {'knight':load_image('resource/player/knight.png'),
                       'magician' : load_image('resource/player/magician.png'),
                       'viking':load_image('resource/player/viking.png')}
+        self.sprite = {
+            'knight': {'max_frame': {'idle': 6, 'walk': 8, 'run': 7, 'atk1': 5, 'atk2': 2, 'atk3': 3, 'atk4': 4},
+                       'action': {'idle': 9, 'walk': 8, 'run': 7, 'atk1': 6, 'atk2': 5, 'atk3': 4, 'atk4': 3}},
+            'wizard': {'max_frame': {'idle': 6, 'walk': 7, 'run': 8, 'atk1': 10, 'atk2': 4, 'atk3': 7},
+                       'action': {'idle': 9, 'walk': 8, 'run': 7, 'atk1': 5, 'atk2': 4, 'atk3': 3}},
+            'archer': {'max_frame': {'idle': 6, 'walk': 8, 'run': 8, 'atk1': 14, 'atk2': 13, 'atk3': 4},
+                       'action': {'idle': 9, 'walk': 8, 'run': 7, 'atk1': 5, 'atk2': 4, 'atk3': 3}},
+        }
 
 
     def update(self):
