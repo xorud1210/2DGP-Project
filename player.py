@@ -73,7 +73,7 @@ class Idle:
     @staticmethod
     def enter(player, e):
         player.idle_dir = player.x_dir
-        player.x_dir = 0
+        # player.x_dir = 0
         player.y_dir = 0
         player.frame = 0
 
@@ -86,19 +86,6 @@ class Idle:
     @staticmethod
     def do(player):
         player.frame = (player.frame  + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
-
-    @staticmethod
-    def draw(player):
-        if player.x_dir == 1:
-            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * 162,
-                                                player.frame_wid, player.frame_hei, player.x, player.y, 66,
-                                                100)
-
-        else:
-            player.image[player.role].clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162,
-                                                          player.frame_wid, player.frame_hei, 0, 'h',
-                                                          player.x, player.y, 66,
-                                                          100)
 
 class RunRight:
     @staticmethod
@@ -121,16 +108,6 @@ class RunRight:
         player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
         player.y = clamp(25, player.y, 900 - 25)
 
-    @staticmethod
-    def draw(player):
-        if player.x_dir == 1:
-            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
-                                     100)
-
-        else:
-            player.image[player.role].clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
-                                     player.x, player.y, 66,
-                                     100)
 
 class RunRightUp:
     @staticmethod
@@ -154,16 +131,6 @@ class RunRightUp:
         player.y = clamp(25, player.y, 900 - 25)
         pass
 
-    @staticmethod
-    def draw(player):
-        if player.x_dir == 1:
-            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
-                                     100)
-
-        else:
-            player.image[player.role].clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
-                                     player.x, player.y, 66,
-                                     100)
 
 class RunRightDown:
     @staticmethod
@@ -187,20 +154,6 @@ class RunRightDown:
         player.y = clamp(25, player.y, 900 - 25)
         pass
 
-    @staticmethod
-    def draw(player):
-        if player.x_dir == 1:
-            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
-                                     100)
-
-        else:
-            player.image[player.role].clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
-                                     player.x, player.y, 66,
-                                     100)
-
-
-
-
 class RunLeft:
     @staticmethod
     def enter(player, e):
@@ -222,16 +175,6 @@ class RunLeft:
         player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
         player.y = clamp(25, player.y, 900 - 25)
 
-    @staticmethod
-    def draw(player):
-        if player.x_dir == 1:
-            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
-                                     100)
-
-        else:
-            player.image[player.role].clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
-                                     player.x, player.y, 66,
-                                     100)
 
 
 class RunLeftUp:
@@ -255,18 +198,6 @@ class RunLeftUp:
         player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
         player.y = clamp(25, player.y, 900 - 25)
 
-    @staticmethod
-    def draw(player):
-        if player.x_dir == 1:
-            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
-                                     100)
-
-        else:
-            player.image[player.role].clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
-                                     player.x, player.y, 66,
-                                     100)
-
-
 class RunLeftDown:
     @staticmethod
     def enter(player, e):
@@ -288,16 +219,6 @@ class RunLeftDown:
         player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
         player.y = clamp(25, player.y, 900 - 25)
 
-    @staticmethod
-    def draw(player):
-        if player.x_dir == 1:
-            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
-                                     100)
-
-        else:
-            player.image[player.role].clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
-                                     player.x, player.y, 66,
-                                     100)
 
 
 
@@ -323,17 +244,6 @@ class RunUp:
         player.y = clamp(25, player.y, 900 - 25)
         pass
 
-    @staticmethod
-    def draw(player):
-        if player.x_dir == 1:
-            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
-                                     100)
-
-        else:
-            player.image[player.role].clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
-                                     player.x, player.y, 66,
-                                     100)
-
 
 class RunDown:
     @staticmethod
@@ -353,17 +263,6 @@ class RunDown:
         player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
         player.y = clamp(25, player.y, 900 - 25)
         pass
-
-    @staticmethod
-    def draw(player):
-        if player.x_dir == 1:
-            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
-                                     100)
-
-        else:
-            player.image[player.role].clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
-                                     player.x, player.y, 66,
-                                     100)
 
 
 class Sleep:
@@ -419,7 +318,7 @@ class Player:
     def __init__(self):
         self.x, self.y = 300, 300
         self.frame = 0
-        self.action = 0
+        self.action = 9
         self.x_dir = 0
         self.y_dir = 0
         self.idle_dir = 0
@@ -453,12 +352,19 @@ class Player:
         for check_event, next_role in self.roles.items():
             if check_event(('INPUT',event)):
                 self.role = next_role
-                print(self.frame_wid, self.frame_hei)
-        pass
+                self.speed, self.attack_speed = self.stat[self.role]['speed'], self.stat[self.role]['attack_speed']
 
     def draw(self):
-        self.state_machine.draw()
-        draw_rectangle(*self.get_bb())
+        if self.x_dir == 1:
+            self.image[self.role].clip_draw(int(self.frame) * self.frame_wid, self.action * self.frame_hei,
+                                            self.frame_wid, self.frame_hei, self.x, self.y + 25,
+                                            self.frame_wid, self.frame_hei)
+
+        else:
+            self.image[self.role].clip_composite_draw(int(self.frame) * self.frame_wid,
+                                                      self.action * self.frame_hei, self.frame_wid,
+                                                      self.frame_hei, 0, 'h', self.x, self.y + 25,
+                                                      self.frame_wid, self.frame_hei)
 
     def attack(self):
         weapon = self.stat[self.role]['weapon'](self.x + 40 * self.x_dir,self.y, self.stat[self.role]['power'], self.x_dir)
