@@ -72,7 +72,6 @@ class Idle:
         player.x_dir = 0
         player.y_dir = 0
         player.frame = 0
-        # player.wait_time = get_time()
 
     @staticmethod
     def exit(player, e):
@@ -83,11 +82,6 @@ class Idle:
     @staticmethod
     def do(player):
         player.frame = (player.frame  + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
-        # if player.action == 2 and player.frame == 0:
-        #     player.action = 0
-        #     player.frame_wid = 102
-        #     player.frame_hei = 162
-        pass
 
     @staticmethod
     def draw(player):
