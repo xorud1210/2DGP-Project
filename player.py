@@ -101,40 +101,6 @@ class Idle:
                                                           player.frame_wid, player.frame_hei, 0, 'h',
                                                           player.x, player.y, 66,
                                                           100)
-class Walk:
-    @staticmethod
-    def enter(player, e):
-        if right_down(e) or left_up(e): # 오른쪽으로 RUN
-            player.x_dir = 1
-        elif left_down(e) or right_up(e): # 왼쪽으로 RUN
-            player.x_dir = -1
-        player.action = 0
-
-    @staticmethod
-    def exit(player, e):
-        pass
-
-    @staticmethod
-    def do(player):
-        player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
-        # if player.action == 2 and player.frame == 0:
-        #     player.action = 0
-        #     player.frame_wid = 102
-        #     player.frame_hei = 162
-        player.x += player.x_dir * 4
-        player.y += player.y_dir * 3
-        pass
-
-    @staticmethod
-    def draw(player):
-        if player.x_dir == 1:
-            player.image[player.role].clip_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, player.x, player.y, 66,
-                                     100)
-
-        else:
-            player.image[player.role].clip_composite_draw(int(player.frame) * player.frame_wid, player.action * 162, player.frame_wid, player.frame_hei, 0, 'h',
-                                     player.x, player.y, 66,
-                                     100)
 
 class RunRight:
     @staticmethod
