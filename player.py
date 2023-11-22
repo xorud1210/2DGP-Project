@@ -431,13 +431,9 @@ class Player:
         self.stat = {'knight': {'power': 2, 'speed': 1.5, 'attack_speed': 0.9, 'weapon': Sword},
                      'wizard': {'power': 4, 'speed': 1, 'attack_speed': 0.7, 'weapon': Orb},
                      'archer': {'power': 6, 'speed': 1.2, 'attack_speed': 1.5, 'weapon': Arrow}}
-
         self.image = {'knight':load_image('resource/player/knight.png'),
                       'magician' : load_image('resource/player/magician.png'),
                       'viking':load_image('resource/player/viking.png')}
-        self.frame_size = {'knight': (102, 162),
-                      'magician': (90, 142),
-                      'viking': (102,170) }
 
 
     def update(self):
@@ -449,7 +445,6 @@ class Player:
         for check_event, next_role in self.roles.items():
             if check_event(('INPUT',event)):
                 self.role = next_role
-                self.frame_wid, self.frame_hei = self.frame_size[self.role]
                 print(self.frame_wid, self.frame_hei)
         pass
 
