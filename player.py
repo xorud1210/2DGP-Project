@@ -56,6 +56,8 @@ def down_3(e):
 def time_out(e):
     return e[0] == 'TIME_OUT'
 
+def attack_end(e):
+    return e[0] == 'ATTACK_END'
 
 # Boy Run Speed
 PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
@@ -262,6 +264,28 @@ class RunDown:
         player.y += player.y_dir * RUN_SPEED_PPS * game_framework.frame_time * player.stat[player.role]['speed']
         player.x = clamp(25, player.x, 1600 - 25)     # clamp : 값의 범위 지정
         player.y = clamp(25, player.y, 900 - 25)
+
+class Attack:
+    @staticmethod
+    def enter(player, e):
+        player.run = False
+        player.frame = 0
+        player.action = player.sprite[player.role]['action']['atk1']
+        player.max_frame = player.sprite[player.role]['max_frame']['atk1']
+
+    @staticmethod
+    def exit(player, e):
+        if player.frame >= player.max_frame-0.2:
+            if player.state_machine.cur_state == RunUp or player.state_machine.cur_state == RunDown:
+                player.attack(0, player.y_dir)
+            else:
+                player.attack(player.x_dir,player.y_dir)
+
+    @staticmethod
+    def do(player):
+        player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * player.attack_speed * game_framework.frame_time ) % player.max_frame
+        if player.frame >= player.max_frame-0.2:
+            player.state_machine.handle_event(('ATTACK_END', 0))
 
 
 class StateMachine:
