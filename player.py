@@ -81,8 +81,7 @@ class Idle:
 
     @staticmethod
     def exit(player, e):
-        if space_down(e):
-            player.attack()
+        pass
 
 
     @staticmethod
@@ -98,8 +97,7 @@ class RunRight:
 
     @staticmethod
     def exit(player, e):
-        if space_down(e):
-            player.attack()
+        pass
 
 
     @staticmethod
@@ -120,8 +118,7 @@ class RunRightUp:
 
     @staticmethod
     def exit(player, e):
-        if space_down(e):
-            player.attack()
+        pass
 
 
     @staticmethod
@@ -143,8 +140,7 @@ class RunRightDown:
 
     @staticmethod
     def exit(player, e):
-        if space_down(e):
-            player.attack()
+        pass
 
 
     @staticmethod
@@ -165,8 +161,7 @@ class RunLeft:
 
     @staticmethod
     def exit(player, e):
-        if space_down(e):
-            player.attack()
+        pass
 
 
     @staticmethod
@@ -188,8 +183,7 @@ class RunLeftUp:
 
     @staticmethod
     def exit(player, e):
-        if space_down(e):
-            player.attack()
+        pass
 
 
     @staticmethod
@@ -209,8 +203,7 @@ class RunLeftDown:
 
     @staticmethod
     def exit(player, e):
-        if space_down(e):
-            player.attack()
+        pass
 
 
     @staticmethod
@@ -233,8 +226,7 @@ class RunUp:
 
     @staticmethod
     def exit(player, e):
-        if space_down(e):
-            player.attack()
+        pass
 
 
     @staticmethod
@@ -293,25 +285,26 @@ class StateMachine:
         self.player = player
         self.cur_state = Idle
         self.transitions = {
-            Idle: {right_down: RunRight, left_down: RunLeft, left_up: RunRight, right_up: RunLeft, upkey_down: RunUp,
-                   downkey_down: RunDown, upkey_up: RunDown, downkey_up: RunUp, space_down: Idle},
+            Idle: {right_down: RunRight, left_down: RunLeft, left_up: RunRight, right_up: RunLeft, upkey_down: RunUp, downkey_down: RunDown, upkey_up: RunDown, downkey_up: RunUp, space_down: Attack},
             RunRight: {right_up: Idle, left_down: Idle, upkey_down: RunRightUp, upkey_up: RunRightDown,
-                       downkey_down: RunRightDown, downkey_up: RunRightUp, space_down: RunRight},
+                       downkey_down: RunRightDown, downkey_up: RunRightUp, space_down: Attack},
             RunRightUp: {upkey_up: RunRight, right_up: RunUp, left_down: RunUp, downkey_down: RunRight,
-                         space_down: RunRightUp},
+                         space_down: Attack},
             RunUp: {upkey_up: Idle, left_down: RunLeftUp, downkey_down: Idle, right_down: RunRightUp,
-                    left_up: RunRightUp, right_up: RunLeftUp, space_down: RunUp},
+                    left_up: RunRightUp, right_up: RunLeftUp, space_down: Attack},
             RunLeftUp: {right_down: RunUp, downkey_down: RunLeft, left_up: RunUp, upkey_up: RunLeft,
-                        space_down: RunLeftUp},
+                        space_down: Attack},
             RunLeft: {left_up: Idle, upkey_down: RunLeftUp, right_down: Idle, downkey_down: RunLeftDown,
-                      upkey_up: RunLeftDown, downkey_up: RunLeftUp, space_down: RunLeft},
+                      upkey_up: RunLeftDown, downkey_up: RunLeftUp, space_down: Attack},
             RunLeftDown: {left_up: RunDown, downkey_up: RunLeft, upkey_down: RunLeft, right_down: RunDown,
-                          space_down: RunLeftDown},
+                          space_down: Attack},
             RunDown: {downkey_up: Idle, left_down: RunLeftDown, upkey_down: Idle, right_down: RunRightDown,
-                      left_up: RunRightDown, right_up: RunLeftDown, space_down: RunDown},
-            RunRightDown: {right_up: RunDown, downkey_up: RunRight, left_down: RunDown, upkey_down: RunRight,
-                           space_down: RunRightDown}
+                      left_up: RunRightDown, right_up: RunLeftDown, space_down: Attack},
+            RunRightDown: {right_up: RunDown, downkey_up: RunRight, left_down: RunDown, upkey_down: RunRight, space_down: Attack},
+            Attack:{right_down: RunRight, left_down: RunLeft, upkey_down: RunUp,
+                   downkey_down: RunDown, attack_end: Idle}
         }
+
 
     def start(self):
         self.cur_state.enter(self.player)
