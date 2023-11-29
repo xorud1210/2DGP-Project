@@ -1,0 +1,2 @@
+player = None
+stadium = None
