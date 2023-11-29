@@ -7,6 +7,7 @@ import game_world
 from player import Player
 from stadium import Stadium
 from ball import Ball
+from ai import Ai
 # from grass import Grass
 # from boy import Boy
 # from ball import Ball
@@ -29,6 +30,7 @@ def init():
     global player
     global stadium
     global ball
+    global ai
 
     running = True
 
@@ -40,13 +42,18 @@ def init():
 
     ball = Ball()
     game_world.add_object(ball, 1)
+
+    ai = Ai()
+    game_world.add_object(ai,1)
     # fill here
 
     game_world.add_collision_pair('player:ball',player,ball)
     game_world.add_collision_pair('stadium:ball',stadium,ball)
     game_world.add_collision_pair('stadium:player', stadium, player)
 
-
+    game_world.add_collision_pair('ball:sword',ball,None)
+    game_world.add_collision_pair('ball:orb',ball,None)
+    game_world.add_collision_pair('ball:arrow',ball,None)
 
 
 def finish():
