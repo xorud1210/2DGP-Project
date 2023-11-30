@@ -55,10 +55,3 @@ class Ball:
             elif self.y < 85:
                 self.y_dir *= -1
                 self.y = 85
-        if group == 'player:ball':
-            # self.x_dir = (other.stat[other.role]['power'] if (self.x - other.x) > 0 else -other.stat[other.role]['power']) * game_framework.PIXEL_PER_METER
-            # self.y_dir = (other.stat[other.role]['power'] if (self.y - other.y) > 0 else -other.stat[other.role]['power']) * game_framework.PIXEL_PER_METER
-            dir = math.atan2(self.y - other.y, self.x - other.x)
-            self.x_dir = math.cos(dir) * other.stat[other.role]['power']
-            self.y_dir = math.sin(dir) * other.stat[other.role]['power']
-            # print(self.x_dir,self.y_dir)
