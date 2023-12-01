@@ -78,6 +78,8 @@ class Idle:
         # player.x_dir = 0
         player.y_dir = 0
         player.frame = 0
+        player.action = 9
+        player.max_frame = player.sprite[player.role]['max_frame']['idle']
 
     @staticmethod
     def exit(player, e):
@@ -91,8 +93,28 @@ class Idle:
 class RunRight:
     @staticmethod
     def enter(player, e):
+        player.frame = 0
+        if player.run and player.x_dir == 1:
+            player.action = 7
+        else:
+            player.run = False
+            player.action = 8
+            if right_up(e):
+                player.input_time = get_time()
+            if right_down(e):
+                if get_time() - player.input_time < game_framework.frame_time * 60:
+                    player.action = 7
+                    player.run = True
+                else:
+                    player.action = 8
+                    player.run = False
+            player.input_time = get_time()
         player.x_dir = 1
         player.y_dir = 0
+        if player.action == 7:
+            player.max_frame = player.sprite[player.role]['max_frame']['run']
+        elif player.action == 8:
+            player.max_frame = player.sprite[player.role]['max_frame']['walk']
         pass
 
     @staticmethod
@@ -114,7 +136,7 @@ class RunRightUp:
     def enter(player, e):
         player.x_dir = 1
         player.y_dir = 1
-        pass
+        player.state_change('walk')
 
     @staticmethod
     def exit(player, e):
@@ -136,8 +158,7 @@ class RunRightDown:
     def enter(player, e):
         player.x_dir = 1
         player.y_dir = -1
-        pass
-
+        player.state_change('walk')
     @staticmethod
     def exit(player, e):
         pass
@@ -157,7 +178,7 @@ class RunLeft:
     def enter(player, e):
         player.x_dir = -1
         player.y_dir = 0
-        pass
+        player.state_change('walk')
 
     @staticmethod
     def exit(player, e):
@@ -179,7 +200,7 @@ class RunLeftUp:
     def enter(player, e):
         player.x_dir = -1
         player.y_dir = 1
-        pass
+        player.state_change('walk')
 
     @staticmethod
     def exit(player, e):
@@ -199,7 +220,7 @@ class RunLeftDown:
     def enter(player, e):
         player.x_dir = -1
         player.y_dir = -1
-        pass
+        player.state_change('walk')
 
     @staticmethod
     def exit(player, e):
@@ -222,6 +243,7 @@ class RunUp:
     @staticmethod
     def enter(player, e):
         player.y_dir = 1
+        player.state_change('walk')
 
 
     @staticmethod
@@ -243,11 +265,11 @@ class RunDown:
     @staticmethod
     def enter(player, e):
         player.y_dir = -1
+        player.state_change('walk')
 
     @staticmethod
     def exit(player, e):
-        if space_down(e):
-            player.attack()
+        pass
 
     @staticmethod
     def do(player):
@@ -262,12 +284,11 @@ class Attack:
     def enter(player, e):
         player.run = False
         player.frame = 0
-        player.action = player.sprite[player.role]['action']['atk1']
-        player.max_frame = player.sprite[player.role]['max_frame']['atk1']
+        player.state_change('atk1')
 
     @staticmethod
     def exit(player, e):
-        if player.frame >= player.max_frame-0.2:
+        if player.frame >= player.max_frame-0.1:
             if player.state_machine.cur_state == RunUp or player.state_machine.cur_state == RunDown:
                 player.attack(0, player.y_dir)
             else:
@@ -328,22 +349,29 @@ class StateMachine:
 class Player:
     def __init__(self):
         self.x, self.y = 300, 300
-        self.frame = 0
-        self.action = 9
         self.x_dir = 0
         self.y_dir = 0
+        self.run = False
+        self.input_time = 0
         self.idle_dir = 0
         self.state_machine = StateMachine(self)
+
         self.frame_wid = 128
         self.frame_hei = 128
+        self.max_frame = 6
+        self.frame = 0
+        self.action = 9
+
+        self.speed = 1.5
+        self.attack_speed = 0.6
         self.role = 'knight'
-        self.roles = {down_1 : 'knight', down_2 : 'magician', down_3 : 'viking'}
+        self.roles = {down_1 : 'knight', down_2 : 'wizard', down_3 : 'archer'}
         self.stat = {'knight': {'power': 2, 'speed': 1.5, 'attack_speed': 0.9, 'weapon': Sword},
                      'wizard': {'power': 4, 'speed': 1, 'attack_speed': 0.7, 'weapon': Orb},
                      'archer': {'power': 6, 'speed': 1.2, 'attack_speed': 1.5, 'weapon': Arrow}}
         self.image = {'knight':load_image('resource/player/knight.png'),
-                      'magician' : load_image('resource/player/magician.png'),
-                      'viking':load_image('resource/player/viking.png')}
+                      'wizard' : load_image('resource/player/wizard.png'),
+                      'archer':load_image('resource/player/archer.png')}
         self.sprite = {
             'knight': {'max_frame': {'idle': 6, 'walk': 8, 'run': 7, 'atk1': 5, 'atk2': 2, 'atk3': 3, 'atk4': 4},
                        'action': {'idle': 9, 'walk': 8, 'run': 7, 'atk1': 6, 'atk2': 5, 'atk3': 4, 'atk4': 3}},
@@ -376,6 +404,10 @@ class Player:
                                                       self.action * self.frame_hei, self.frame_wid,
                                                       self.frame_hei, 0, 'h', self.x, self.y + 25,
                                                       self.frame_wid, self.frame_hei)
+
+    def state_change(self, state):
+        self.action = self.sprite[self.role]['action'][state]
+        self.max_frame = self.sprite[self.role]['max_frame'][state]
 
     def attack(self):
         weapon = self.stat[self.role]['weapon'](self.x + 40 * self.x_dir,self.y, self.stat[self.role]['power'], self.x_dir)
