@@ -95,27 +95,22 @@ class RunRight:
     def enter(player, e):
         player.frame = 0
         if player.run and player.x_dir == 1:
-            player.action = 7
+            player.state_change('run')
         else:
             player.run = False
-            player.action = 8
+            player.state_change('walk')
             if right_up(e):
                 player.input_time = get_time()
             if right_down(e):
                 if get_time() - player.input_time < game_framework.frame_time * 60:
-                    player.action = 7
+                    player.state_change('run')
                     player.run = True
                 else:
-                    player.action = 8
+                    player.state_change('walk')
                     player.run = False
             player.input_time = get_time()
         player.x_dir = 1
         player.y_dir = 0
-        if player.action == 7:
-            player.max_frame = player.sprite[player.role]['max_frame']['run']
-        elif player.action == 8:
-            player.max_frame = player.sprite[player.role]['max_frame']['walk']
-        pass
 
     @staticmethod
     def exit(player, e):
@@ -134,9 +129,14 @@ class RunRight:
 class RunRightUp:
     @staticmethod
     def enter(player, e):
+        player.frame = 0
+        if player.run and player.x_dir == 1:
+            player.state_change('run')
+        else:
+            player.run = False
+            player.state_change('walk')
         player.x_dir = 1
         player.y_dir = 1
-        player.state_change('walk')
 
     @staticmethod
     def exit(player, e):
@@ -156,9 +156,14 @@ class RunRightUp:
 class RunRightDown:
     @staticmethod
     def enter(player, e):
+        player.frame = 0
+        if player.run and player.x_dir == 1:
+            player.state_change('run')
+        else:
+            player.run = False
+            player.state_change('walk')
         player.x_dir = 1
         player.y_dir = -1
-        player.state_change('walk')
     @staticmethod
     def exit(player, e):
         pass
@@ -176,9 +181,24 @@ class RunRightDown:
 class RunLeft:
     @staticmethod
     def enter(player, e):
+        player.frame = 0
+        if player.run and player.x_dir == -1:
+            player.state_change('run')
+        else:
+            player.run = False
+            player.state_change('walk')
+            if left_up(e):
+                player.input_time = get_time()
+            if left_down(e):
+                if get_time() - player.input_time < game_framework.frame_time * 60:
+                    player.state_change('run')
+                    player.run = True
+                else:
+                    player.state_change('walk')
+                    player.run = False
+            player.input_time = get_time()
         player.x_dir = -1
         player.y_dir = 0
-        player.state_change('walk')
 
     @staticmethod
     def exit(player, e):
@@ -198,9 +218,14 @@ class RunLeft:
 class RunLeftUp:
     @staticmethod
     def enter(player, e):
+        player.frame = 0
+        if player.run and player.x_dir == -1:
+            player.state_change('run')
+        else:
+            player.run = False
+            player.state_change('walk')
         player.x_dir = -1
         player.y_dir = 1
-        player.state_change('walk')
 
     @staticmethod
     def exit(player, e):
@@ -218,9 +243,14 @@ class RunLeftUp:
 class RunLeftDown:
     @staticmethod
     def enter(player, e):
+        player.frame = 0
+        if player.run and player.x_dir == -1:
+            player.state_change('run')
+        else:
+            player.run = False
+            player.state_change('walk')
         player.x_dir = -1
         player.y_dir = -1
-        player.state_change('walk')
 
     @staticmethod
     def exit(player, e):
@@ -242,8 +272,22 @@ class RunLeftDown:
 class RunUp:
     @staticmethod
     def enter(player, e):
+        if player.run and player.y_dir == 1:
+            player.state_change('run')
+        else:
+            player.run = False
+            player.state_change('walk')
+            if upkey_up(e):
+                player.input_time = get_time()
+            if upkey_down(e):
+                if get_time() - player.input_time < game_framework.frame_time * 60:
+                    player.state_change('run')
+                    player.run = True
+                else:
+                    player.state_change('walk')
+                    player.run = False
+            player.input_time = get_time()
         player.y_dir = 1
-        player.state_change('walk')
 
 
     @staticmethod
@@ -264,8 +308,22 @@ class RunUp:
 class RunDown:
     @staticmethod
     def enter(player, e):
+        if player.run and player.y_dir == -1:
+            player.state_change('run')
+        else:
+            player.run = False
+            player.state_change('walk')
+            if downkey_up(e):
+                player.input_time = get_time()
+            if downkey_down(e):
+                if get_time() - player.input_time < game_framework.frame_time * 60:
+                    player.state_change('run')
+                    player.run = True
+                else:
+                    player.state_change('walk')
+                    player.run = False
+            player.input_time = get_time()
         player.y_dir = -1
-        player.state_change('walk')
 
     @staticmethod
     def exit(player, e):
