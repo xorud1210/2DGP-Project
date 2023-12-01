@@ -346,7 +346,7 @@ class Attack:
 
     @staticmethod
     def exit(player, e):
-        if player.frame >= player.max_frame-0.1:
+        if player.frame >= player.max_frame-0.2:
             if player.state_machine.cur_state == RunUp or player.state_machine.cur_state == RunDown:
                 player.attack(0, player.y_dir)
             else:
@@ -467,8 +467,8 @@ class Player:
         self.action = self.sprite[self.role]['action'][state]
         self.max_frame = self.sprite[self.role]['max_frame'][state]
 
-    def attack(self):
-        weapon = self.stat[self.role]['weapon'](self.x + 40 * self.x_dir,self.y, self.stat[self.role]['power'], self.x_dir)
+    def attack(self, x_dir = 0, y_dir = 0):
+        weapon = self.stat[self.role]['weapon'](self.x + 40 * x_dir,self.y + 40 * y_dir, self.stat[self.role]['power'], x_dir, y_dir)
         game_world.add_object(weapon)
 
     def get_bb(self):
