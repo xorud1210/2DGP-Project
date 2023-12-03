@@ -1,4 +1,4 @@
-from pico2d import draw_rectangle
+from pico2d import draw_rectangle, get_time
 
 import play_mode
 
@@ -18,11 +18,19 @@ class Goalpost:
 
     def handle_collision(self, group, other):
         if group == 'leftgoal:ball':
-            play_mode.score.left_score += 1
+            play_mode.scoreboard.right_score += 1
             play_mode.ball.respawn()
+            play_mode.player.respawn()
+            play_mode.ai.respawn()
+            play_mode.scoreboard.time = 0
+            play_mode.scoreboard.fever = False
         elif group == 'rightgoal:ball':
-            play_mode.score.right_score += 1
+            play_mode.scoreboard.left_score += 1
             play_mode.ball.respawn()
+            play_mode.player.respawn()
+            play_mode.ai.respawn()
+            play_mode.scoreboard.time = 0
+            play_mode.scoreboard.fever = False
 
 
 
