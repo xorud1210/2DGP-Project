@@ -44,7 +44,6 @@ class Stadium:
     def draw(self):
         # self.background.draw(800,400,1600,900)
         self.stadium.draw(self.x,self.y,self.width,self.height)
-        draw_rectangle(*self.get_bb())
         # self.stadium.draw(800,300)
     def get_bb(self):
         return self.x - 681, self.y - 372, self.x + 687, self.y + 370
