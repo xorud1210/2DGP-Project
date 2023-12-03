@@ -6,7 +6,7 @@ import game_framework
 import game_world
 from goalpost import Goalpost
 from player import Player
-from score import Score
+from scoreboard import Scoreboard
 from stadium import Stadium
 from ball import Ball
 from ai import Ai
@@ -34,7 +34,7 @@ def init():
     global ball
     global ai
     global left_goalpost, right_goalpost
-    global score
+    global scoreboard
 
     running = True
 
@@ -57,8 +57,8 @@ def init():
     right_goalpost = Goalpost(1520,450)
     game_world.add_object(right_goalpost, 0)
 
-    score = Score()
-    game_world.add_object(score,0)
+    scoreboard = Scoreboard()
+    game_world.add_object(scoreboard,0)
 
     game_world.add_collision_pair('player:ball',player,ball)
     game_world.add_collision_pair('leftgoal:ball',left_goalpost,ball)
