@@ -25,7 +25,7 @@ FRAMES_PER_ACTION = 8
 
 class Ai:
     def __init__(self):
-        self.x, self.y = 1200, 300
+        self.x, self.y = 1200, 450
         self.frame = 0
         self.action = 9
         self.x_dir = 0
@@ -39,8 +39,8 @@ class Ai:
         self.attack_speed = 0.6
         self.role = 'knight'
         self.stat = {'knight': {'power': 2, 'range': 1.2, 'speed': 1.5, 'attack_speed': 0.6, 'weapon': Sword},
-                     'wizard': {'power': 4, 'range': 12, 'speed': 1, 'attack_speed': 0.5, 'weapon': Orb},
-                     'archer': {'power': 6, 'range': 8, 'speed': 1.2, 'attack_speed': 1.5, 'weapon': Arrow}}
+                     'wizard': {'power': 4, 'range': 10, 'speed': 1, 'attack_speed': 0.5, 'weapon': Orb},
+                     'archer': {'power': 6, 'range': 6, 'speed': 1.2, 'attack_speed': 1.5, 'weapon': Arrow}}
         self.image = {'knight': load_image('resource/player/knight.png'),
                       'wizard': load_image('resource/player/wizard.png'),
                       'archer': load_image('resource/player/archer.png')}
@@ -76,20 +76,32 @@ class Ai:
     def handle_event(self, event):
         pass
 
+    def respawn(self):
+        self.x, self.y = 1200, 450
+        self.frame = 0
+        self.action = 9
+        self.x_dir = 0
+        self.y_dir = 0
+        self.dir = 0.0
+        self.run = False
+
     def state_change(self, state):
         self.action = self.sprite[self.role]['action'][state]
         self.max_frame = self.sprite[self.role]['max_frame'][state]
 
     def thinking(self):
-        if get_time() - self.time <game_framework.frame_time * 1000:
+        if get_time() - self.time <game_framework.frame_time * 250:
             return BehaviorTree.RUNNING
         else:
             return BehaviorTree.SUCCESS
 
     def set_dir(self, tx, ty):
         self.dir = math.atan2(ty - self.y, tx - self.x)
-        self.x_dir = 1 if math.cos(self.dir) > 0 else -1
-        self.y_dir = 1 if math.sin(self.dir) > 0 else -1
+        # if math.cos(self.dir)
+        # self.x_dir = 1 if math.cos(self.dir) > 0 else -1
+        # self.y_dir = 1 if math.sin(self.dir) > 0 else -1
+        self.x_dir = math.cos(self.dir)
+        self.y_dir = math.sin(self.dir)
 
     def distance_less_than(self, x1, y1, x2, y2, r):
         distance2 = (x1 - x2) ** 2 + (y1 - y2) ** 2
@@ -127,11 +139,16 @@ class Ai:
 
     def attack(self):
         self.state_change('atk1')
-        weapon = self.stat[self.role]['weapon'](self.x + 40 * self.x_dir, self.y + 40 * self.y_dir, self.stat[self.role]['power'],
-                                                self.x_dir, self.y_dir)
+        self.set_dir(play_mode.ball.x, play_mode.ball.y)
         if self.frame < self.max_frame - 0.05:
             return BehaviorTree.RUNNING
         else:
+            if play_mode.scoreboard.fever:
+                weapon = self.stat[self.role]['weapon'](self.x + 40 * self.x_dir, self.y + 40 * self.y_dir, self.stat[self.role]['power'] * 2,
+                                                self.x_dir, self.y_dir)
+            else:
+                weapon = self.stat[self.role]['weapon'](self.x + 40 * self.x_dir, self.y + 40 * self.y_dir, self.stat[self.role]['power'],
+                                                self.x_dir, self.y_dir)
             game_world.add_object(weapon)
             self.time = get_time()
             return BehaviorTree.SUCCESS
