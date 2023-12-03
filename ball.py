@@ -12,7 +12,7 @@ machal = 1.02
 class Ball:
     def __init__(self):
         self.x = 800
-        self.y = 300
+        self.y = 450
         self.x_dir = 0
         self.y_dir = 0
         self.image = load_image('resource/stadium/ball.png')
@@ -33,6 +33,25 @@ class Ball:
             self.x_dir = 0
         if self.y_dir < 0.0001 and self.y_dir > -0.0001:
             self.y_dir = 0
+        # 필드 벽과 충돌
+        if self.x > 1455:
+            if self.y > 350 and self.y < 550:
+                pass
+            else:
+                self.x_dir *= -1
+                self.x = 1455
+        elif self.x < 151:
+            if self.y > 350 and self.y < 550:
+                pass
+            else:
+                self.x_dir *= -1
+                self.x = 151
+        if self.y > 815:
+            self.y_dir *= -1
+            self.y = 815
+        elif self.y < 85:
+            self.y_dir *= -1
+            self.y = 85
 
     def draw(self):
         self.image.draw(self.x,self.y,64,64)
@@ -42,16 +61,10 @@ class Ball:
         return self.x - 32., self.y - 32, self.x + 32, self.y + 32
 
     def handle_collision(self, group, other):
-        if group == 'stadium:ball':
-            if self.x > 1455 :
-                self.x_dir *= -1
-                self.x = 1455
-            elif self.x < 151:
-                self.x_dir *= -1
-                self.x = 151
-            if self.y > 815:
-                self.y_dir *= -1
-                self.y = 815
-            elif self.y < 85:
-                self.y_dir *= -1
-                self.y = 85
+        pass
+
+    def respawn(self):
+        self.x = 800
+        self.y = 450
+        self.x_dir = 0
+        self.y_dir = 0
