@@ -4,6 +4,7 @@ from pico2d import (get_time, load_image, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE,
                     draw_rectangle, clamp)
 import game_world
 import game_framework
+import play_mode
 from arrow import Arrow
 from orb import Orb
 from sword import Sword
@@ -406,7 +407,7 @@ class StateMachine:
 
 class Player:
     def __init__(self):
-        self.x, self.y = 300, 300
+        self.x, self.y = 400, 450
         self.x_dir = 0
         self.y_dir = 0
         self.run = False
@@ -468,11 +469,23 @@ class Player:
         self.max_frame = self.sprite[self.role]['max_frame'][state]
 
     def attack(self, x_dir = 0, y_dir = 0):
-        weapon = self.stat[self.role]['weapon'](self.x + 40 * x_dir,self.y + 40 * y_dir, self.stat[self.role]['power'], x_dir, y_dir)
+        if play_mode.scoreboard.fever:
+            weapon = self.stat[self.role]['weapon'](self.x + 40 * x_dir, self.y + 40 * y_dir,
+                                                    self.stat[self.role]['power'] * 2, x_dir, y_dir)
+        else:
+            weapon = self.stat[self.role]['weapon'](self.x + 40 * x_dir,self.y + 40 * y_dir, self.stat[self.role]['power'], x_dir, y_dir)
         game_world.add_object(weapon)
 
     def get_bb(self):
         return self.x - 33, self.y - 50,self.x + 33, self.y + 50
+
+    def respawn(self):
+        self.x, self.y = 400, 450
+        self.x_dir = 0
+        self.y_dir = 0
+        self.run = False
+        self.input_time = 0
+        self.idle_dir = 0
 
     def handle_collision(self, group, other):
         if group == 'player:ball':
