@@ -4,7 +4,9 @@ from pico2d import *
 import game_framework
 
 import game_world
+from goalpost import Goalpost
 from player import Player
+from score import Score
 from stadium import Stadium
 from ball import Ball
 from ai import Ai
@@ -31,6 +33,8 @@ def init():
     global stadium
     global ball
     global ai
+    global left_goalpost, right_goalpost
+    global score
 
     running = True
 
@@ -47,9 +51,18 @@ def init():
     game_world.add_object(ai,1)
     # fill here
 
+    left_goalpost = Goalpost(85,450)
+    game_world.add_object(left_goalpost, 0)
+
+    right_goalpost = Goalpost(1520,450)
+    game_world.add_object(right_goalpost, 0)
+
+    score = Score()
+    game_world.add_object(score,0)
+
     game_world.add_collision_pair('player:ball',player,ball)
-    game_world.add_collision_pair('stadium:ball',stadium,ball)
-    game_world.add_collision_pair('stadium:player', stadium, player)
+    game_world.add_collision_pair('leftgoal:ball',left_goalpost,ball)
+    game_world.add_collision_pair('rightgoal:ball',right_goalpost,ball)
 
     game_world.add_collision_pair('ball:sword',ball,None)
     game_world.add_collision_pair('ball:orb',ball,None)
