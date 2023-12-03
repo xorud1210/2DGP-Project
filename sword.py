@@ -58,4 +58,5 @@ class Sword:
             other.dir = math.atan2(other.y - self.y, other.x - self.x)
             other.x_dir = math.cos(other.dir) * self.power
             other.y_dir = math.sin(other.dir) * self.power
+            game_world.remove_object(self)
         pass
