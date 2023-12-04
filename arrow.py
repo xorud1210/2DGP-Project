@@ -27,7 +27,7 @@ class Arrow:
         self.y_dir = y_dir
         self.speed = 2.5
         self.range = 8 * PIXEL_PER_METER
-        self.image = load_image('resource/vfx/arrow2.png')
+        self.image = load_image('resource/vfx/arrow.png')
         self.frame = 0
         self.sound = load_wav('resource/sound/bow.wav')
         self.sound.set_volume(64)
