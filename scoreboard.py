@@ -13,7 +13,7 @@ class Scoreboard:
         self.player_score = 0
         self.ai_score = 0
         self.target_score = 5
-        self.font = load_font('ENCR10B.TTF', 50)
+        self.font = load_font('resource/font/font.ttf', 50)
         self.image = load_image('resource/stadium/scoreboard.png')
         self.fever_sound = load_wav('resource/sound/fever_bell.wav')
         self.fever_sound.set_volume(64)
