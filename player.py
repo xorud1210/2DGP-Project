@@ -408,7 +408,7 @@ class StateMachine:
 class Player:
     def __init__(self):
         self.x, self.y = 400, 450
-        self.x_dir = 0
+        self.x_dir = 1
         self.y_dir = 0
         self.run = False
         self.input_time = 0
@@ -481,7 +481,7 @@ class Player:
 
     def respawn(self):
         self.x, self.y = 400, 450
-        self.x_dir = 0
+        self.x_dir = 1
         self.y_dir = 0
         self.run = False
         self.input_time = 0
