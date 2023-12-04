@@ -15,7 +15,8 @@ class Ball:
         self.y = 450
         self.x_dir = 0
         self.y_dir = 0
-        self.image = load_image('resource/stadium/ball.png')
+        self.ball = load_image('resource/stadium/ball.png')
+        self.fever_ball = load_image('resource/stadium/fever_ball.png')
 
     def update(self):
         self.x += self.x_dir
@@ -54,7 +55,10 @@ class Ball:
             self.y = 85
 
     def draw(self):
-        self.image.draw(self.x,self.y,64,64)
+        if play_mode.scoreboard.fever:
+            self.fever_ball.draw(self.x, self.y, 64, 64)
+        else:
+            self.ball.draw(self.x, self.y, 64, 64)
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):
