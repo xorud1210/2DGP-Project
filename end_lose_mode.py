@@ -13,11 +13,11 @@ def init():
     global key_sound
 
     bg_iamge = load_image('resource/title/you_lose.jpg')
-    press_space = load_image('resource/title/press_space.png')
+    press_space = load_image('resource/title/restart.png')
     time = get_time()
     bgm = load_music('resource/sound/lose.mp3')
     bgm.set_volume(64)
-    bgm.repeat_play()
+    bgm.play()
     key_sound = load_wav('resource/sound/press_key.wav')
     key_sound.set_volume(64)
 
@@ -48,8 +48,8 @@ def handle_events():
 def draw():
     clear_canvas()
     bg_iamge.draw(800, 600, 1600, 1200)
-    # if int(time) % 3 != 0:
-        # press_space.draw(800,800,400,200)
+    if int(time) % 2 != 0:
+        press_space.draw(800,200)
     update_canvas()
 
 def update():
