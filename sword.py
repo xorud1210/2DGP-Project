@@ -20,8 +20,8 @@ FRAMES_PER_ACTION = 8
 
 class Sword:
     def __init__(self, x, y, power, x_dir = 0, y_dir = 0):
-        self.x = x
-        self.y = y
+        self.x = x + x_dir * 1.5 * PIXEL_PER_METER
+        self.y = y + y_dir * 1.5 * PIXEL_PER_METER
         self.power = power
         self.x_dir = x_dir
         # if server.player.state_machine.before_stat:

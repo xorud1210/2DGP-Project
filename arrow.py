@@ -18,8 +18,8 @@ FRAMES_PER_ACTION = 8
 
 class Arrow:
     def __init__(self, x, y, power, x_dir = 0, y_dir = 0):
-        self.x = x
-        self.y = y
+        self.x = x + x_dir * 1 * PIXEL_PER_METER
+        self.y = y + y_dir * 1 * PIXEL_PER_METER
         self.first_x = x
         self.first_y = y
         self.power = power

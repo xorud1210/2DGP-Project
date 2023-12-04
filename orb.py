@@ -18,8 +18,8 @@ FRAMES_PER_ACTION = 8
 
 class Orb:
     def __init__(self, x, y, power, x_dir=0, y_dir=0):
-        self.x = x
-        self.y = y
+        self.x = x + x_dir * 1 * PIXEL_PER_METER
+        self.y = y + y_dir * 1 * PIXEL_PER_METER
         self.first_x = x
         self.first_y = y
         self.power = power
@@ -42,7 +42,7 @@ class Orb:
         self.y += self.y_dir * RUN_SPEED_PPS * game_framework.frame_time * self.speed
 
     def draw(self):
-        self.image.clip_draw(int(self.frame) % 3 * 56, 0,56,56,self.x,self.y,60,60)
+        self.image.clip_draw(int(self.frame) % 4 * 56, 0,56,56,self.x,self.y,60,60)
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):
