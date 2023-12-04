@@ -25,7 +25,7 @@ class Scoreboard:
         cur_time = get_time()
         self.time += cur_time - self.last_time
         self.last_time = cur_time
-        if self.time > 10 and not self.fever:
+        if self.time > 50 and not self.fever:
             self.fever = True
             self.fever_sound.play()
         if self.player_score >= self.target_score:
