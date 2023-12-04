@@ -35,6 +35,12 @@ def init():
     global ai
     global left_goalpost, right_goalpost
     global scoreboard
+    global bgm
+
+
+    bgm = load_music('resource/sound/bgm.mp3')
+    bgm.set_volume(32)
+    bgm.repeat_play()
 
     running = True
 

@@ -28,7 +28,7 @@ class Ai:
         self.x, self.y = 1200, 450
         self.frame = 0
         self.action = 9
-        self.x_dir = 0
+        self.x_dir = -1
         self.y_dir = 0
         self.dir = 0.0
         self.run = False
@@ -80,7 +80,7 @@ class Ai:
         self.x, self.y = 1200, 450
         self.frame = 0
         self.action = 9
-        self.x_dir = 0
+        self.x_dir = -1
         self.y_dir = 0
         self.dir = 0.0
         self.run = False

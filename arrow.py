@@ -1,5 +1,5 @@
 
-from pico2d import load_image, draw_rectangle
+from pico2d import load_image, draw_rectangle, load_music, load_wav
 
 import game_framework
 import game_world
@@ -29,6 +29,9 @@ class Arrow:
         self.range = 8 * PIXEL_PER_METER
         self.image = load_image('resource/vfx/arrow2.png')
         self.frame = 0
+        self.sound = load_wav('resource/sound/bow.wav')
+        self.sound.set_volume(64)
+        self.sound.play()
         game_world.add_collision_pair('ball:arrow',None,self)
 
     def update(self):
@@ -43,7 +46,7 @@ class Arrow:
         if self.x_dir > 0:
             self.image.clip_draw(int(self.frame) * 95, 0,95,95,self.x,self.y,44,8)
         else:
-            self.image.clip_composite_draw(int(self.frame) * 95, 0,95,95,0,'h',self.x,self.y,88,16)
+            self.image.clip_composite_draw(int(self.frame) * 95, 0,95,95,0,'h',self.x,self.y,44,8)
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):

@@ -1,4 +1,4 @@
-from pico2d import load_image, draw_rectangle
+from pico2d import load_image, draw_rectangle, load_wav
 
 import game_framework
 import game_world
@@ -32,6 +32,9 @@ class Sword:
         self.speed = 0
         self.image = load_image('resource/vfx/sword1.png')
         self.frame = 0
+        self.sound = load_wav('resource/sound/sword.wav')
+        self.sound.set_volume(64)
+        self.sound.play()
         game_world.add_collision_pair('ball:sword',None,self)
 
     def update(self):
