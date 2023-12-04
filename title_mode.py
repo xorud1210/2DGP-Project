@@ -1,17 +1,18 @@
 from pico2d import *
 import game_framework
+import manual_mode
 import play_mode
-
-
 def init():
-    global bg_iamge
+    global bg_image
     global press_space
+    global press_m
     global time
     global bgm
     global key_sound
 
-    bg_iamge = load_image('resource/title/title.png')
+    bg_image = load_image('resource/title/title.png')
     press_space = load_image('resource/title/press_space.png')
+    press_m = load_image('resource/title/press_m.png')
     time = get_time()
     bgm = load_music('resource/sound/title.mp3')
     bgm.set_volume(32)
@@ -20,13 +21,15 @@ def init():
     key_sound.set_volume(64)
 
 def finish():
-    global bg_iamge
+    global bg_image
     global press_space
+    global press_m
     global time
     global bgm
 
-    del bg_iamge
+    del bg_image
     del press_space
+    del press_m
     del time
     del bgm
 
@@ -40,12 +43,15 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:
             key_sound.play()
             game_framework.change_mode(play_mode)
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_m:
+            game_framework.push_mode(manual_mode)
 
 def draw():
     clear_canvas()
-    bg_iamge.draw(800, 600, 1600, 1200)
+    bg_image.draw(800, 600, 1600, 1200)
     if int(time) % 3 != 0:
         press_space.draw(800,800,400,200)
+    press_m.draw(1600 - 120, 1200 - 25)
     update_canvas()
 
 def update():
