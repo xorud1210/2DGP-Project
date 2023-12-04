@@ -47,7 +47,7 @@ class Arrow:
             self.image.clip_draw(int(self.frame) * 95, 0,95,95,self.x,self.y,44,8)
         else:
             self.image.clip_composite_draw(int(self.frame) * 95, 0,95,95,0,'h',self.x,self.y,44,8)
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         return self.x - 22., self.y - 4, self.x + 22, self.y + 4

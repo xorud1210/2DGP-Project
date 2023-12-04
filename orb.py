@@ -43,7 +43,7 @@ class Orb:
 
     def draw(self):
         self.image.clip_draw(int(self.frame) % 4 * 56, 0,56,56,self.x,self.y,60,60)
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         return self.x - 30., self.y - 30, self.x + 30, self.y + 30

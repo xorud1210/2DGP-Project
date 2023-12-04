@@ -46,7 +46,7 @@ class Spell:
             self.image.clip_draw(int(self.frame) % 5 * 63, 0,63,110,self.x,self.y,30,60)
         else:
             self.image.clip_composite_draw(int(self.frame) % 5 * 63, 0,63,110,0,'h',self.x,self.y,30,60)
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         return self.x - 15., self.y - 30, self.x + 15, self.y + 30

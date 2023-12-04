@@ -59,7 +59,7 @@ class Ball:
             self.fever_ball.draw(self.x, self.y, 64, 64)
         else:
             self.ball.draw(self.x, self.y, 64, 64)
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         return self.x - 32., self.y - 32, self.x + 32, self.y + 32
