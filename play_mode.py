@@ -73,6 +73,7 @@ def init():
     game_world.add_collision_pair('ball:sword',ball,None)
     game_world.add_collision_pair('ball:orb',ball,None)
     game_world.add_collision_pair('ball:arrow',ball,None)
+    game_world.add_collision_pair('ball:spell',ball,None)
 
 
 def finish():

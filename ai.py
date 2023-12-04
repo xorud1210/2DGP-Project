@@ -9,6 +9,7 @@ import game_framework
 import play_mode
 from arrow import Arrow
 from orb import Orb
+from spell import Spell
 from sword import Sword
 
 # player Run Speed
@@ -38,12 +39,14 @@ class Ai:
         self.speed = 1.5
         self.attack_speed = 0.6
         self.role = 'knight'
-        self.stat = {'knight': {'power': 2, 'range': 1.2, 'speed': 1.5, 'attack_speed': 0.6, 'weapon': Sword},
-                     'wizard': {'power': 4, 'range': 10, 'speed': 1, 'attack_speed': 0.5, 'weapon': Orb},
-                     'archer': {'power': 6, 'range': 6, 'speed': 1.2, 'attack_speed': 1.5, 'weapon': Arrow}}
+        self.stat = {'knight': {'power': 1.5, 'range': 1.2, 'speed': 1.5, 'attack_speed': 0.6, 'weapon': Sword},
+                     'wizard': {'power': 3, 'range': 10, 'speed': 1, 'attack_speed': 0.5, 'weapon': Orb},
+                     'archer': {'power': 5, 'range': 6, 'speed': 1.2, 'attack_speed': 1.5, 'weapon': Arrow},
+                     'vampire': {'power': 4, 'range': 3, 'speed': 1.2, 'attack_speed': 1.0, 'weapon': Spell}}
         self.image = {'knight': load_image('resource/player/knight.png'),
                       'wizard': load_image('resource/player/wizard.png'),
-                      'archer': load_image('resource/player/archer.png')}
+                      'archer': load_image('resource/player/archer.png'),
+                      'vampire': load_image('resource/player/vampire.png')}
         self.sprite = {
             'knight': {'max_frame': {'idle': 6, 'walk': 8, 'run': 7, 'atk1': 5, 'atk2': 2, 'atk3': 3, 'atk4': 4},
                        'action': {'idle': 9, 'walk': 8, 'run': 7, 'atk1': 6, 'atk2': 5, 'atk3': 4, 'atk4': 3}},
@@ -51,6 +54,8 @@ class Ai:
                        'action': {'idle': 9, 'walk': 8, 'run': 7, 'atk1': 5, 'atk2': 4, 'atk3': 3}},
             'archer': {'max_frame': {'idle': 6, 'walk': 8, 'run': 8, 'atk1': 14, 'atk2': 13, 'atk3': 4},
                        'action': {'idle': 9, 'walk': 8, 'run': 7, 'atk1': 5, 'atk2': 4, 'atk3': 3}},
+            'vampire': {'max_frame': {'idle': 5, 'walk': 6, 'run': 6, 'atk1': 6, 'atk2': 13, 'atk3': 4},
+                        'action': {'idle': 9, 'walk': 8, 'run': 7, 'atk1': 3, 'atk2': 4, 'atk3': 3}},
         }
         self.input_time = 0
 
@@ -90,7 +95,7 @@ class Ai:
         self.max_frame = self.sprite[self.role]['max_frame'][state]
 
     def thinking(self):
-        if get_time() - self.time <game_framework.frame_time * 250:
+        if get_time() - self.time < game_framework.frame_time * 250:
             return BehaviorTree.RUNNING
         else:
             return BehaviorTree.SUCCESS
@@ -120,8 +125,13 @@ class Ai:
             return BehaviorTree.RUNNING
 
     def select_weapon(self):
-        roles = ['knight', 'wizard', 'archer']
-        self.role = roles[random.randint(0,2)]
+        roles = ['knight','vampire', 'wizard', 'archer']
+        # if self.x < play_mode.ball.x:
+        #     self.role = roles[random.randint(0,1)]
+        #     print("공이 뒤에 있음")
+        # else:
+        self.role = roles[random.randint(0,3)]
+            # print("공이 앞에 있음")
 
         return BehaviorTree.SUCCESS
 
@@ -140,14 +150,14 @@ class Ai:
     def attack(self):
         self.state_change('atk1')
         self.set_dir(play_mode.ball.x, play_mode.ball.y)
-        if self.frame < self.max_frame - 0.05:
+        if self.frame < self.max_frame - 0.1:
             return BehaviorTree.RUNNING
         else:
             if play_mode.scoreboard.fever:
-                weapon = self.stat[self.role]['weapon'](self.x + 40 * self.x_dir, self.y + 40 * self.y_dir, self.stat[self.role]['power'] * 2,
+                weapon = self.stat[self.role]['weapon'](self.x, self.y, self.stat[self.role]['power'] * 2,
                                                 self.x_dir, self.y_dir)
             else:
-                weapon = self.stat[self.role]['weapon'](self.x + 40 * self.x_dir, self.y + 40 * self.y_dir, self.stat[self.role]['power'],
+                weapon = self.stat[self.role]['weapon'](self.x, self.y, self.stat[self.role]['power'],
                                                 self.x_dir, self.y_dir)
             game_world.add_object(weapon)
             self.time = get_time()

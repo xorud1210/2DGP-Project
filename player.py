@@ -1,13 +1,14 @@
 from pico2d import (get_time, load_image, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE,
                     SDLK_LEFT, SDLK_RIGHT, SDLK_DOWN, SDLK_UP,
-                    SDLK_a, SDLK_1, SDLK_2, SDLK_3,
-                    draw_rectangle, clamp)
+                    SDLK_a, SDLK_1, SDLK_2, SDLK_3, SDLK_4,
+                    clamp)
 import game_world
 import game_framework
 import play_mode
 from arrow import Arrow
 from orb import Orb
 from sword import Sword
+from spell import Spell
 
 
 # state event check
@@ -53,6 +54,9 @@ def down_2(e):
 
 def down_3(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_3
+
+def down_4(e):
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_4
 
 def time_out(e):
     return e[0] == 'TIME_OUT'
@@ -347,7 +351,7 @@ class Attack:
 
     @staticmethod
     def exit(player, e):
-        if player.frame >= player.max_frame-0.2:
+        if player.frame >= player.max_frame - 0.1:
             if player.state_machine.cur_state == RunUp or player.state_machine.cur_state == RunDown:
                 player.attack(0, player.y_dir)
             else:
@@ -356,7 +360,7 @@ class Attack:
     @staticmethod
     def do(player):
         player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * player.attack_speed * game_framework.frame_time ) % player.max_frame
-        if player.frame >= player.max_frame-0.2:
+        if player.frame >= player.max_frame - 0.1:
             player.state_machine.handle_event(('ATTACK_END', 0))
 
 
@@ -424,13 +428,15 @@ class Player:
         self.speed = 1.5
         self.attack_speed = 0.6
         self.role = 'knight'
-        self.roles = {down_1 : 'knight', down_2 : 'wizard', down_3 : 'archer'}
-        self.stat = {'knight': {'power': 2, 'speed': 1.5, 'attack_speed': 0.9, 'weapon': Sword},
-                     'wizard': {'power': 4, 'speed': 1, 'attack_speed': 0.7, 'weapon': Orb},
-                     'archer': {'power': 6, 'speed': 1.2, 'attack_speed': 1.5, 'weapon': Arrow}}
+        self.roles = {down_1 : 'knight', down_2 : 'wizard', down_3 : 'archer', down_4: 'vampire'}
+        self.stat = {'knight': {'power': 1.5, 'speed': 1.5, 'attack_speed': 0.9, 'weapon': Sword},
+                     'wizard': {'power': 3, 'speed': 1, 'attack_speed': 0.7, 'weapon': Orb},
+                     'archer': {'power': 5, 'speed': 1.2, 'attack_speed': 1.5, 'weapon': Arrow},
+                     'vampire': {'power': 4, 'speed': 1.2, 'attack_speed': 1.0, 'weapon': Spell}}
         self.image = {'knight':load_image('resource/player/knight.png'),
                       'wizard' : load_image('resource/player/wizard.png'),
-                      'archer':load_image('resource/player/archer.png')}
+                      'archer':load_image('resource/player/archer.png'),
+                      'vampire':load_image('resource/player/vampire.png')}
         self.sprite = {
             'knight': {'max_frame': {'idle': 6, 'walk': 8, 'run': 7, 'atk1': 5, 'atk2': 2, 'atk3': 3, 'atk4': 4},
                        'action': {'idle': 9, 'walk': 8, 'run': 7, 'atk1': 6, 'atk2': 5, 'atk3': 4, 'atk4': 3}},
@@ -438,6 +444,8 @@ class Player:
                        'action': {'idle': 9, 'walk': 8, 'run': 7, 'atk1': 5, 'atk2': 4, 'atk3': 3}},
             'archer': {'max_frame': {'idle': 6, 'walk': 8, 'run': 8, 'atk1': 14, 'atk2': 13, 'atk3': 4},
                        'action': {'idle': 9, 'walk': 8, 'run': 7, 'atk1': 5, 'atk2': 4, 'atk3': 3}},
+            'vampire': {'max_frame': {'idle': 5, 'walk': 6, 'run': 6, 'atk1': 6, 'atk2': 13, 'atk3': 4},
+                       'action': {'idle': 9, 'walk': 8, 'run': 7, 'atk1': 3, 'atk2': 4, 'atk3': 3}},
         }
 
 
@@ -470,10 +478,10 @@ class Player:
 
     def attack(self, x_dir = 0, y_dir = 0):
         if play_mode.scoreboard.fever:
-            weapon = self.stat[self.role]['weapon'](self.x + 40 * x_dir, self.y + 40 * y_dir,
+            weapon = self.stat[self.role]['weapon'](self.x, self.y,
                                                     self.stat[self.role]['power'] * 2, x_dir, y_dir)
         else:
-            weapon = self.stat[self.role]['weapon'](self.x + 40 * x_dir,self.y + 40 * y_dir, self.stat[self.role]['power'], x_dir, y_dir)
+            weapon = self.stat[self.role]['weapon'](self.x ,self.y, self.stat[self.role]['power'], x_dir, y_dir)
         game_world.add_object(weapon)
 
     def get_bb(self):
